@@ -1,0 +1,53 @@
+{
+  "builders": [
+    {
+      "type": "proxmox",
+      "node": "virt2",
+      "proxmox_url": "https://virt1.hq.int-sys.ru:8006/api2/json",
+      "insecure_skip_tls_verify": "true",
+      "username": "root@pam",
+      "password": "qwe123!@",
+      "vm_name": "rustdesk_builder",
+      "template_description": "Windows build environemnt",
+      "iso_file": "virt1-hdd:iso/16299.15.170928-1534.rs3_release_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+      "iso_checksum": "md5",
+      "memory": "4096",
+      "cores": "4",
+      "os": "win10",
+      "network_adapters": [
+        {
+          "model": "e1000",
+          "bridge": "vmbr0",
+          "vlan_tag": "102"
+        }
+      ],
+      "disks": [
+        {
+          "type": "sata",
+          "disk_size": "60G",
+          "storage_pool": "virt2-ssd",
+          "format": "qcow2"
+        }
+      ],
+      "http_directory": "http",
+      "additional_iso_files": [
+        {
+          "device": "sata3",
+          "iso_url": "./Autounattend.iso",
+          "iso_storage_pool": "ISO-storage",
+          "unmount": true
+        },
+        {
+          "device": "sata4",
+          "iso_file": "virt1-hdd:iso/virtio-win-0.1.185.iso",
+          "unmount": true
+        }
+      ],
+      "communicator": "winrm",
+      "winrm_username": "user",
+      "winrm_password": "12345",
+      "winrm_insecure": true,
+      "winrm_use_ssl": true
+    }
+  ]
+}
